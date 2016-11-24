@@ -1,0 +1,1556 @@
+diff --git a/.eslintignore b/.eslintignore
+new file mode 100644
+index 0000000..6a9459d
+--- /dev/null
++++ b/.eslintignore
+@@ -0,0 +1 @@
++horizon/static/horizon/lib/
+\ No newline at end of file
+diff --git a/.eslintrc b/.eslintrc
+new file mode 100644
+index 0000000..9ad8227
+--- /dev/null
++++ b/.eslintrc
+@@ -0,0 +1,45 @@
++# Set up globals
++globals:
++  angular: false
++
++extends: openstack
++
++# Most environment options are not explicitly enabled or disabled, only
++# included here for completeness' sake. They are commented out, because the
++# global updates.py script would otherwise override them during a global
++# requirements synchronization.
++#
++# Individual projects should choose which platforms they deploy to.
++
++env:
++  # browser global variables.
++  browser: true
++
++  # Adds all of the Jasmine testing global variables for version 1.3 and 2.0.
++  jasmine: true
++
++
++# Below we adjust rules specific to horizon's usage of openstack's linting
++# rules, and its own plugin inclusions.
++rules:
++  #############################################################################
++  # Disabled Rules from eslint-config-openstack
++  #############################################################################
++  valid-jsdoc: 1
++  no-undefined: 1
++  brace-style: 1
++  no-extra-parens: 1
++  callback-return: 1
++  block-scoped-var: 1
++
++  #############################################################################
++  # Angular Plugin Customization
++  #############################################################################
++
++  angular/controller-as-vm:
++    - 1
++    - "ctrl"
++
++  # Remove after migrating to angular 1.4 or later.
++  angular/no-cookiestore:
++    - 1
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..f464981
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,43 @@
++*.egg*
++*.mo
++*.pyc
++*.sw?
++*.sqlite3
++*.lock
++.environment_version
++.selenium_log
++.coverage*
++.noseids
++.DS_STORE
++coverage.xml
++coverage-karma
++nosetests.xml
++pep8.txt
++pylint.txt
++# Files created by releasenotes build
++releasenotes/build
++reports
++openstack_dashboard/local/*
++!openstack_dashboard/local/local_settings.py.example
++!openstack_dashboard/local/enabled/_50__settings.py.example
++!openstack_dashboard/local/local_settings.d
++openstack_dashboard/local/local_settings.d/*
++!openstack_dashboard/local/local_settings.d/*.example
++openstack_dashboard/test/.secret_key_store
++openstack_dashboard/test/integration_tests/local-horizon.conf
++openstack_dashboard/wsgi/horizon.wsgi
++doc/build/
++doc/source/sourcecode
++/static/
++integration_tests_screenshots/
++.venv
++.tox
++node_modules
++npm-debug.log
++build
++dist
++AUTHORS
++ChangeLog
++tags
++ghostdriver.log
++.testrepository
+diff --git a/.gitreview b/.gitreview
+new file mode 100644
+index 0000000..554dace
+--- /dev/null
++++ b/.gitreview
+@@ -0,0 +1,5 @@
++[gerrit]
++host=review.openstack.org
++port=29418
++project=openstack/horizon.git
++defaultbranch=stable/mitaka
+diff --git a/.idea/horizon-stable-mitaka.iml b/.idea/horizon-stable-mitaka.iml
+new file mode 100644
+index 0000000..65eff39
+--- /dev/null
++++ b/.idea/horizon-stable-mitaka.iml
+@@ -0,0 +1,31 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="PYTHON_MODULE" version="4">
++  <component name="FacetManager">
++    <facet type="django" name="Django">
++      <configuration>
++        <option name="rootFolder" value="$MODULE_DIR$" />
++        <option name="settingsModule" value="openstack_dashboard/settings.py" />
++        <option name="manageScript" value="manage.py" />
++        <option name="environment" value="&lt;map/&gt;" />
++        <option name="commandsToSkip" value="" />
++      </configuration>
++    </facet>
++  </component>
++  <component name="NewModuleRootManager">
++    <content url="file://$MODULE_DIR$" />
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++  <component name="TemplatesService">
++    <option name="TEMPLATE_CONFIGURATION" value="Django" />
++    <option name="TEMPLATE_FOLDERS">
++      <list>
++        <option value="$MODULE_DIR$/horizon/templates" />
++      </list>
++    </option>
++  </component>
++  <component name="TestRunnerService">
++    <option name="projectConfiguration" value="Nosetests" />
++    <option name="PROJECT_TEST_RUNNER" value="Nosetests" />
++  </component>
++</module>
+\ No newline at end of file
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+new file mode 100644
+index 0000000..ef8b6e9
+--- /dev/null
++++ b/.idea/misc.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
++    <OptionsSetting value="true" id="Add" />
++    <OptionsSetting value="true" id="Remove" />
++    <OptionsSetting value="true" id="Checkout" />
++    <OptionsSetting value="true" id="Update" />
++    <OptionsSetting value="true" id="Status" />
++    <OptionsSetting value="true" id="Edit" />
++    <ConfirmationsSetting value="0" id="Add" />
++    <ConfirmationsSetting value="0" id="Remove" />
++  </component>
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 2.7.6 virtualenv at ~/Downloads/horizon-stable-mitaka/.venv" project-jdk-type="Python SDK" />
++</project>
+\ No newline at end of file
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+new file mode 100644
+index 0000000..5dc236b
+--- /dev/null
++++ b/.idea/modules.xml
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/.idea/horizon-stable-mitaka.iml" filepath="$PROJECT_DIR$/.idea/horizon-stable-mitaka.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+index 0000000..94a25f7
+--- /dev/null
++++ b/.idea/vcs.xml
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+new file mode 100644
+index 0000000..66dda7e
+--- /dev/null
++++ b/.idea/workspace.xml
+@@ -0,0 +1,466 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ChangeListManager">
++    <list default="true" id="1d23b04e-2751-4108-aa6e-f7e898ded7b4" name="Default" comment="">
++      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
++      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/openstack_dashboard/enabled/_50_cadvisor_dashboad.py" />
++      <change type="DELETED" beforePath="$PROJECT_DIR$/openstack_dashboard/enabled/_50_admin_add_panel.py.example" afterPath="" />
++      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/openstack_dashboard/settings.py" afterPath="$PROJECT_DIR$/openstack_dashboard/settings.py" />
++    </list>
++    <ignored path="horizon-stable-mitaka.iws" />
++    <ignored path=".idea/workspace.xml" />
++    <ignored path=".idea/dataSources.local.xml" />
++    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
++    <option name="TRACKING_ENABLED" value="true" />
++    <option name="SHOW_DIALOG" value="false" />
++    <option name="HIGHLIGHT_CONFLICTS" value="true" />
++    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
++    <option name="LAST_RESOLUTION" value="IGNORE" />
++  </component>
++  <component name="CreatePatchCommitExecutor">
++    <option name="PATCH_PATH" value="" />
++  </component>
++  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
++  <component name="FavoritesManager">
++    <favorites_list name="horizon-stable-mitaka" />
++  </component>
++  <component name="FileEditorManager">
++    <leaf>
++      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
++        <entry file="file://$PROJECT_DIR$/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/urls.py">
++          <provider selected="true" editor-type-id="text-editor">
++            <state relative-caret-position="238">
++              <caret line="18" column="56" selection-start-line="18" selection-start-column="56" selection-end-line="18" selection-end-column="56" />
++              <folding>
++                <element signature="e#546#578#0" expanded="true" />
++              </folding>
++            </state>
++          </provider>
++        </entry>
++      </file>
++      <file leaf-file-name="_50_cadvisor_dashboad.py" pinned="false" current-in-tab="false">
++        <entry file="file://$PROJECT_DIR$/openstack_dashboard/enabled/_50_cadvisor_dashboad.py">
++          <provider selected="true" editor-type-id="text-editor">
++            <state relative-caret-position="15">
++              <caret line="1" column="30" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="30" />
++              <folding />
++            </state>
++          </provider>
++        </entry>
++      </file>
++      <file leaf-file-name="panel.py" pinned="false" current-in-tab="false">
++        <entry file="file://$PROJECT_DIR$/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/panel.py">
++          <provider selected="true" editor-type-id="text-editor">
++            <state relative-caret-position="165">
++              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
++              <folding>
++                <element signature="e#0#55#0" expanded="true" />
++              </folding>
++            </state>
++          </provider>
++        </entry>
++      </file>
++      <file leaf-file-name="dashboard.py" pinned="false" current-in-tab="false">
++        <entry file="file://$PROJECT_DIR$/openstack_dashboard/dashboards/cadvisor_dashboad/dashboard.py">
++          <provider selected="true" editor-type-id="text-editor">
++            <state relative-caret-position="30">
++              <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
++              <folding>
++                <element signature="e#0#55#0" expanded="true" />
++              </folding>
++            </state>
++          </provider>
++        </entry>
++      </file>
++      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
++        <entry file="file://$PROJECT_DIR$/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/views.py">
++          <provider selected="true" editor-type-id="text-editor">
++            <state relative-caret-position="238">
++              <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
++              <folding />
++            </state>
++          </provider>
++        </entry>
++      </file>
++    </leaf>
++  </component>
++  <component name="Git.Settings">
++    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
++  </component>
++  <component name="IdeDocumentHistory">
++    <option name="CHANGED_PATHS">
++      <list>
++        <option value="$PROJECT_DIR$/openstack_dashboard/enabled/_50_admin_add_panel.py" />
++        <option value="$PROJECT_DIR$/openstack_dashboard/enabled/_50_mydashboard.py" />
++        <option value="$PROJECT_DIR$/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/panel.py" />
++        <option value="$PROJECT_DIR$/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/urls.py" />
++        <option value="$PROJECT_DIR$/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/views.py" />
++      </list>
++    </option>
++  </component>
++  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
++  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
++  <component name="JsGulpfileManager">
++    <detection-done>true</detection-done>
++    <sorting>DEFINITION_ORDER</sorting>
++  </component>
++  <component name="ProjectFrameBounds">
++    <option name="x" value="53" />
++    <option name="y" value="-4" />
++    <option name="width" value="1307" />
++    <option name="height" value="772" />
++  </component>
++  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
++    <OptionsSetting value="true" id="Add" />
++    <OptionsSetting value="true" id="Remove" />
++    <OptionsSetting value="true" id="Checkout" />
++    <OptionsSetting value="true" id="Update" />
++    <OptionsSetting value="true" id="Status" />
++    <OptionsSetting value="true" id="Edit" />
++    <ConfirmationsSetting value="2" id="Add" />
++    <ConfirmationsSetting value="0" id="Remove" />
++  </component>
++  <component name="ProjectView">
++    <navigator currentView="ProjectPane" proportions="" version="1">
++      <flattenPackages />
++      <showMembers />
++      <showModules />
++      <showLibraryContents />
++      <hideEmptyPackages />
++      <abbreviatePackageNames />
++      <autoscrollToSource />
++      <autoscrollFromSource />
++      <sortByType />
++      <manualOrder />
++      <foldersAlwaysOnTop value="true" />
++    </navigator>
++    <panes>
++      <pane id="ProjectPane">
++        <subPane>
++          <PATH>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
++            </PATH_ELEMENT>
++          </PATH>
++          <PATH>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++          </PATH>
++          <PATH>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="openstack_dashboard" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++          </PATH>
++          <PATH>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="openstack_dashboard" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="enabled" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++          </PATH>
++          <PATH>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="openstack_dashboard" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="dashboards" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++          </PATH>
++          <PATH>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="openstack_dashboard" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="dashboards" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="cadvisor_dashboad" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++          </PATH>
++          <PATH>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="openstack_dashboard" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="dashboards" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="cadvisor_dashboad" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="cadvisor_manager" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++          </PATH>
++          <PATH>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="horizon-stable-mitaka" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="openstack_dashboard" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="dashboards" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="cadvisor_dashboad" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="cadvisor_manager" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="templates" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++            <PATH_ELEMENT>
++              <option name="myItemId" value="mypanel" />
++              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
++            </PATH_ELEMENT>
++          </PATH>
++        </subPane>
++      </pane>
++      <pane id="Scope" />
++      <pane id="Scratches" />
++    </panes>
++  </component>
++  <component name="PropertiesComponent">
++    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
++    <property name="WebServerToolWindowFactoryState" value="false" />
++  </component>
++  <component name="RunManager" selected="Django server.horizon-stable-mitaka">
++    <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
++      <option name="INTERPRETER_OPTIONS" value="" />
++      <option name="PARENT_ENVS" value="true" />
++      <envs>
++        <env name="PYTHONUNBUFFERED" value="1" />
++      </envs>
++      <option name="SDK_HOME" value="" />
++      <option name="WORKING_DIRECTORY" value="" />
++      <option name="IS_MODULE_SDK" value="false" />
++      <option name="ADD_CONTENT_ROOTS" value="true" />
++      <option name="ADD_SOURCE_ROOTS" value="true" />
++      <module name="horizon-stable-mitaka" />
++      <option name="launchJavascriptDebuger" value="false" />
++      <option name="port" value="8000" />
++      <option name="host" value="" />
++      <option name="additionalOptions" value="" />
++      <option name="browserUrl" value="" />
++      <option name="runTestServer" value="false" />
++      <option name="runNoReload" value="false" />
++      <option name="useCustomRunCommand" value="false" />
++      <option name="customRunCommand" value="" />
++      <method />
++    </configuration>
++    <configuration default="false" name="horizon-stable-mitaka" type="Python.DjangoServer" factoryName="Django server">
++      <option name="INTERPRETER_OPTIONS" value="" />
++      <option name="PARENT_ENVS" value="true" />
++      <envs>
++        <env name="PYTHONUNBUFFERED" value="1" />
++        <env name="DJANGO_SETTINGS_MODULE" value="openstack_dashboard.settings" />
++      </envs>
++      <option name="SDK_HOME" value="" />
++      <option name="WORKING_DIRECTORY" value="" />
++      <option name="IS_MODULE_SDK" value="false" />
++      <option name="ADD_CONTENT_ROOTS" value="true" />
++      <option name="ADD_SOURCE_ROOTS" value="true" />
++      <module name="horizon-stable-mitaka" />
++      <option name="launchJavascriptDebuger" value="false" />
++      <option name="port" value="8000" />
++      <option name="host" value="" />
++      <option name="additionalOptions" value="" />
++      <option name="browserUrl" value="" />
++      <option name="runTestServer" value="false" />
++      <option name="runNoReload" value="false" />
++      <option name="useCustomRunCommand" value="false" />
++      <option name="customRunCommand" value="" />
++      <method />
++    </configuration>
++    <list size="1">
++      <item index="0" class="java.lang.String" itemvalue="Django server.horizon-stable-mitaka" />
++    </list>
++  </component>
++  <component name="ShelveChangesManager" show_recycled="false">
++    <option name="remove_strategy" value="false" />
++  </component>
++  <component name="TaskManager">
++    <task active="true" id="Default" summary="Default task">
++      <changelist id="1d23b04e-2751-4108-aa6e-f7e898ded7b4" name="Default" comment="" />
++      <created>1479889877093</created>
++      <option name="number" value="Default" />
++      <option name="presentableId" value="Default" />
++      <updated>1479889877093</updated>
++    </task>
++    <servers />
++  </component>
++  <component name="ToolWindowManager">
++    <frame x="53" y="-4" width="1307" height="772" extended-state="6" />
++    <editor active="true" />
++    <layout>
++      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32038066" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
++      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
++      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
++      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
++      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
++      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
++      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972136" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
++      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
++      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972136" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
++      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
++      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3993808" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
++      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
++      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
++      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
++      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
++      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
++      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
++      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
++    </layout>
++  </component>
++  <component name="Vcs.Log.UiProperties">
++    <option name="RECENTLY_FILTERED_USER_GROUPS">
++      <collection />
++    </option>
++    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
++      <collection />
++    </option>
++  </component>
++  <component name="VcsContentAnnotationSettings">
++    <option name="myLimit" value="2678400000" />
++  </component>
++  <component name="XDebuggerManager">
++    <breakpoint-manager />
++    <watches-manager />
++  </component>
++  <component name="editorHistoryManager">
++    <entry file="file://$PROJECT_DIR$/horizon/views.py">
++      <provider selected="true" editor-type-id="text-editor">
++        <state relative-caret-position="134">
++          <caret line="80" column="6" selection-start-line="80" selection-start-column="6" selection-end-line="80" selection-end-column="6" />
++          <folding />
++        </state>
++      </provider>
++    </entry>
++    <entry file="file://$PROJECT_DIR$/openstack_dashboard/enabled/_1010_compute_panel_group.py">
++      <provider selected="true" editor-type-id="text-editor">
++        <state relative-caret-position="0">
++          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
++          <folding />
++        </state>
++      </provider>
++    </entry>
++    <entry file="file://$PROJECT_DIR$/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/panel.py">
++      <provider selected="true" editor-type-id="text-editor">
++        <state relative-caret-position="165">
++          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
++          <folding>
++            <element signature="e#0#55#0" expanded="true" />
++          </folding>
++        </state>
++      </provider>
++    </entry>
++    <entry file="file://$PROJECT_DIR$/openstack_dashboard/enabled/_50_cadvisor_dashboad.py">
++      <provider selected="true" editor-type-id="text-editor">
++        <state relative-caret-position="15">
++          <caret line="1" column="30" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="30" />
++          <folding />
++        </state>
++      </provider>
++    </entry>
++    <entry file="file://$PROJECT_DIR$/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/urls.py">
++      <provider selected="true" editor-type-id="text-editor">
++        <state relative-caret-position="238">
++          <caret line="18" column="56" selection-start-line="18" selection-start-column="56" selection-end-line="18" selection-end-column="56" />
++          <folding>
++            <element signature="e#546#578#0" expanded="true" />
++          </folding>
++        </state>
++      </provider>
++    </entry>
++    <entry file="file://$PROJECT_DIR$/openstack_dashboard/dashboards/cadvisor_dashboad/dashboard.py">
++      <provider selected="true" editor-type-id="text-editor">
++        <state relative-caret-position="30">
++          <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
++          <folding>
++            <element signature="e#0#55#0" expanded="true" />
++          </folding>
++        </state>
++      </provider>
++    </entry>
++    <entry file="file://$PROJECT_DIR$/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/views.py">
++      <provider selected="true" editor-type-id="text-editor">
++        <state relative-caret-position="238">
++          <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
++          <folding />
++        </state>
++      </provider>
++    </entry>
++  </component>
++</project>
+\ No newline at end of file
+diff --git a/.mailmap b/.mailmap
+new file mode 100644
+index 0000000..9f485e7
+--- /dev/null
++++ b/.mailmap
+@@ -0,0 +1,13 @@
++# Format is:
++# <preferred e-mail> <other e-mail 1>
++# <preferred e-mail> <other e-mail 2>
++<ghe@debian.org> <ghe.rivero@stackops.com>
++<jake@ansolabs.com> <admin@jakedahn.com>
++<launchpad@markgius.com> <mgius7096@gmail.com>
++<yorik.sar@gmail.com> <yorik@ytaraday>
++<jeblair@hp.com> <james.blair@rackspace.com>
++<ke.wu@ibeca.me> <ke.wu@nebula.com>
++Zhongyue Luo <zhongyue.nah@intel.com> <lzyeval@gmail.com>
++Joe Gordon <joe.gordon0@gmail.com> <jogo@cloudscaling.com>
++Kun Huang <gareth@unitedstack.com> <academicgareth@gmail.com>
++Zhenguo Niu <zhenguo@unitedstack.com> <Niu.ZGlinux@gmail.com>
+diff --git a/.pylintrc b/.pylintrc
+new file mode 100644
+index 0000000..64f5caf
+--- /dev/null
++++ b/.pylintrc
+@@ -0,0 +1,42 @@
++# The format of this file isn't really documented; just use --generate-rcfile
++[MASTER]
++# Add <file or directory> to the black list. It should be a base name, not a
++# path. You may set this option multiple times.
++ignore=test
++
++[Messages Control]
++# NOTE(justinsb): We might want to have a 2nd strict pylintrc in future
++# C0111: Don't require docstrings on every method
++# W0511: TODOs in code comments are fine.
++# W0142: *args and **kwargs are fine.
++# W0622: Redefining id is fine.
++disable=C0111,W0511,W0142,W0622
++
++[Basic]
++# Variable names can be 1 to 31 characters long, with lowercase and underscores
++variable-rgx=[a-z_][a-z0-9_]{0,30}$
++
++# Argument names can be 2 to 31 characters long, with lowercase and underscores
++argument-rgx=[a-z_][a-z0-9_]{1,30}$
++
++# Method names should be at least 3 characters long
++# and be lowecased with underscores
++method-rgx=([a-z_][a-z0-9_]{2,50}|setUp|tearDown)$
++
++# Module names matching keystone-* are ok (files in bin/)
++module-rgx=(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+)|(keystone-[a-z0-9_-]+))$
++
++# Don't require docstrings on tests.
++no-docstring-rgx=((__.*__)|([tT]est.*)|setUp|tearDown)$
++
++[Design]
++max-public-methods=100
++min-public-methods=0
++max-args=6
++
++[Variables]
++
++# List of additional names supposed to be defined in builtins. Remember that
++# you should avoid to define new builtins when possible.
++# _ is used by our localization
++additional-builtins=_
+diff --git a/.testr.conf b/.testr.conf
+new file mode 100644
+index 0000000..8bb24be
+--- /dev/null
++++ b/.testr.conf
+@@ -0,0 +1,4 @@
++[DEFAULT]
++test_command=./run_tests.sh -N --no-pep8 --with-xunit
++test_id_option=--load-list $IDFILE
++test_list_option=--list
+diff --git a/b.diff b/b.diff
+new file mode 100644
+index 0000000..870b8f4
+--- /dev/null
++++ b/b.diff
+@@ -0,0 +1,59 @@
++diff --git a/.idea/vcs.xml b/.idea/vcs.xml
++new file mode 100644
++index 0000000..94a25f7
++--- /dev/null
+++++ b/.idea/vcs.xml
++@@ -0,0 +1,6 @@
+++<?xml version="1.0" encoding="UTF-8"?>
+++<project version="4">
+++  <component name="VcsDirectoryMappings">
+++    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+++  </component>
+++</project>
++\ No newline at end of file
++diff --git a/openstack_dashboard/enabled/_50_admin_add_panel.py.example b/openstack_dashboard/enabled/_50_admin_add_panel.py.example
++deleted file mode 100644
++index b3c2acd..0000000
++--- a/openstack_dashboard/enabled/_50_admin_add_panel.py.example
+++++ /dev/null
++@@ -1,10 +0,0 @@
++-# The slug of the panel to be added to HORIZON_CONFIG. Required.
++-PANEL = 'plugin_panel'
++-# The slug of the dashboard the PANEL associated with. Required.
++-PANEL_DASHBOARD = 'admin'
++-# The slug of the panel group the PANEL is associated with.
++-PANEL_GROUP = 'admin'
++-
++-# Python panel class of the PANEL to be added.
++-ADD_PANEL = \
++-    'openstack_dashboard.test.test_panels.plugin_panel.panel.PluginPanel'
++diff --git a/openstack_dashboard/enabled/_50_cadvisor_dashboad.py b/openstack_dashboard/enabled/_50_cadvisor_dashboad.py
++new file mode 100644
++index 0000000..8be5eba
++--- /dev/null
+++++ b/openstack_dashboard/enabled/_50_cadvisor_dashboad.py
++@@ -0,0 +1,10 @@
+++# The name of the dashboard to be added to HORIZON['dashboards']. Required.
+++DASHBOARD = 'cadvisor_dashboad'
+++
+++# If set to True, this dashboard will not be added to the settings.
+++DISABLED = False
+++
+++# A list of applications to be added to INSTALLED_APPS.
+++ADD_INSTALLED_APPS = [
+++    'openstack_dashboard.dashboards.cadvisor_dashboad',
+++]
++\ No newline at end of file
++diff --git a/openstack_dashboard/settings.py b/openstack_dashboard/settings.py
++index 0dca085..cbb8f85 100644
++--- a/openstack_dashboard/settings.py
+++++ b/openstack_dashboard/settings.py
++@@ -43,6 +43,8 @@ if ROOT_PATH not in sys.path:
++     sys.path.append(ROOT_PATH)
++ 
++ DEBUG = False
+++ALLOWED_HOSTS = ['*']
+++
++ TEMPLATE_DEBUG = DEBUG
++ 
++ SITE_BRANDING = 'OpenStack Dashboard'
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/__init__.py b/openstack_dashboard/dashboards/cadvisor_dashboad/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/__init__.py b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/panel.py b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/panel.py
+new file mode 100644
+index 0000000..dcc9f71
+--- /dev/null
++++ b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/panel.py
+@@ -0,0 +1,13 @@
++from django.utils.translation import ugettext_lazy as _
++
++import horizon
++
++from openstack_dashboard.dashboards.cadvisor_dashboad import dashboard
++
++
++class Mypanel(horizon.Panel):
++    name = _("cadvisor_manager")
++    slug = "cadvisor_manager"
++
++
++dashboard.Mydashboard.register(Mypanel)
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/panel.py~ b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/panel.py~
+new file mode 100644
+index 0000000..0790d92
+--- /dev/null
++++ b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/panel.py~
+@@ -0,0 +1,13 @@
++from django.utils.translation import ugettext_lazy as _
++
++import horizon
++
++from openstack_dashboard.dashboards.mydashboard import dashboard
++
++
++class Mypanel(horizon.Panel):
++    name = _("cadvisor_manager")
++    slug = "cadvisor_manager"
++
++
++dashboard.Mydashboard.register(Mypanel)
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/tables.py b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/tables.py
+new file mode 100644
+index 0000000..08c1377
+--- /dev/null
++++ b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/tables.py
+@@ -0,0 +1,23 @@
++from django.core.urlresolvers import reverse
++
++from django.utils.translation import ugettext_lazy as _
++from horizon import tables
++
++from openstack_dashboard import api
++from openstack_dashboard import policy
++
++class TimKiem(tables.FilterAction):
++    name = "tim kiem"
++
++
++class InstancesTable(tables.DataTable):
++    mac_address = tables.Column('id', verbose_name=_('Mac_address'))
++    name = tables.Column('name', verbose_name=_('Name'))
++    speed = tables.Column('speed', verbose_name=('Speed'))
++    mtu = tables.Column('mtu', verbose_name=_('Mtu'))
++
++    class Meta(object):
++        name = "tenants"
++        verbose_name = _("Projects")
++        table_actions = (TimKiem,)
++        pagination_param = "tenant_marker"
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/tables.py~ b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/tables.py~
+new file mode 100644
+index 0000000..08c1377
+--- /dev/null
++++ b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/tables.py~
+@@ -0,0 +1,23 @@
++from django.core.urlresolvers import reverse
++
++from django.utils.translation import ugettext_lazy as _
++from horizon import tables
++
++from openstack_dashboard import api
++from openstack_dashboard import policy
++
++class TimKiem(tables.FilterAction):
++    name = "tim kiem"
++
++
++class InstancesTable(tables.DataTable):
++    mac_address = tables.Column('id', verbose_name=_('Mac_address'))
++    name = tables.Column('name', verbose_name=_('Name'))
++    speed = tables.Column('speed', verbose_name=('Speed'))
++    mtu = tables.Column('mtu', verbose_name=_('Mtu'))
++
++    class Meta(object):
++        name = "tenants"
++        verbose_name = _("Projects")
++        table_actions = (TimKiem,)
++        pagination_param = "tenant_marker"
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/templates/mypanel/index.html b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/templates/mypanel/index.html
+new file mode 100644
+index 0000000..e9b24f0
+--- /dev/null
++++ b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/templates/mypanel/index.html
+@@ -0,0 +1,12 @@
++{% extends 'base.html' %}
++{% load i18n %}
++{% block title %}{% trans "Mypanel" %}{% endblock %}
++
++{% block page_header %}
++  {% include "horizon/common/_page_header.html" with title=_("Mypanel") %}
++{% endblock page_header %}
++
++{% block main %}
++{% endblock %}
++
++
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/tests.py b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/tests.py
+new file mode 100644
+index 0000000..ec98863
+--- /dev/null
++++ b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/tests.py
+@@ -0,0 +1,19 @@
++# Licensed under the Apache License, Version 2.0 (the "License"); you may
++# not use this file except in compliance with the License. You may obtain
++# a copy of the License at
++#
++#      http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
++# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
++# License for the specific language governing permissions and limitations
++# under the License.
++
++from horizon.test import helpers as test
++
++
++class MypanelTests(test.TestCase):
++    # Unit tests for mypanel.
++    def test_me(self):
++        self.assertTrue(1 + 1 == 2)
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/urls.py b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/urls.py
+new file mode 100644
+index 0000000..88e091b
+--- /dev/null
++++ b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/urls.py
+@@ -0,0 +1,20 @@
++# Licensed under the Apache License, Version 2.0 (the "License"); you may
++# not use this file except in compliance with the License. You may obtain
++# a copy of the License at
++#
++#      http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
++# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
++# License for the specific language governing permissions and limitations
++# under the License.
++
++from django.conf.urls import url
++
++from openstack_dashboard.dashboards.cadvisor_dashboad.cadvisor_manager import views
++
++
++urlpatterns = [
++    url(r'^$', views.IndexView.as_view(), name='index'),
++]
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/views.py b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/views.py
+new file mode 100644
+index 0000000..78761f8
+--- /dev/null
++++ b/openstack_dashboard/dashboards/cadvisor_dashboad/cadvisor_manager/views.py
+@@ -0,0 +1,22 @@
++# Licensed under the Apache License, Version 2.0 (the "License"); you may
++# not use this file except in compliance with the License. You may obtain
++# a copy of the License at
++#
++#      http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
++# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
++# License for the specific language governing permissions and limitations
++# under the License.
++
++from horizon import views
++
++
++class IndexView(views.APIView):
++    # A very simple class-based view...
++    template_name = 'cadvisor_dashboad/mypanel/index.html'
++
++    def get_data(self, request, context, *args, **kwargs):
++        # Add data to the context here...
++        return context
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/dashboard.py b/openstack_dashboard/dashboards/cadvisor_dashboad/dashboard.py
+new file mode 100644
+index 0000000..70fd1bb
+--- /dev/null
++++ b/openstack_dashboard/dashboards/cadvisor_dashboad/dashboard.py
+@@ -0,0 +1,17 @@
++from django.utils.translation import ugettext_lazy as _
++
++import horizon
++
++class Mygroup(horizon.PanelGroup):
++    slug = "mygroup"
++    name = _("My Group")
++    panels = ('cadvisor_manager',)
++
++class Mydashboard(horizon.Dashboard):
++   name = _("cadvisor_dashboad")
++   slug = "cadvisor_dashboad"
++   panels = (Mygroup,)           # Add your panels here.
++   default_panel = ''    # Specify the slug of the dashboard's default panel.
++
++
++horizon.register(Mydashboard)
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/dashboard.py~ b/openstack_dashboard/dashboards/cadvisor_dashboad/dashboard.py~
+new file mode 100644
+index 0000000..70fd1bb
+--- /dev/null
++++ b/openstack_dashboard/dashboards/cadvisor_dashboad/dashboard.py~
+@@ -0,0 +1,17 @@
++from django.utils.translation import ugettext_lazy as _
++
++import horizon
++
++class Mygroup(horizon.PanelGroup):
++    slug = "mygroup"
++    name = _("My Group")
++    panels = ('cadvisor_manager',)
++
++class Mydashboard(horizon.Dashboard):
++   name = _("cadvisor_dashboad")
++   slug = "cadvisor_dashboad"
++   panels = (Mygroup,)           # Add your panels here.
++   default_panel = ''    # Specify the slug of the dashboard's default panel.
++
++
++horizon.register(Mydashboard)
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/static/mydashboard/js/mydashboard.js b/openstack_dashboard/dashboards/cadvisor_dashboad/static/mydashboard/js/mydashboard.js
+new file mode 100644
+index 0000000..d8a2176
+--- /dev/null
++++ b/openstack_dashboard/dashboards/cadvisor_dashboad/static/mydashboard/js/mydashboard.js
+@@ -0,0 +1 @@
++/* Additional JavaScript for mydashboard. */
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/static/mydashboard/scss/mydashboard.scss b/openstack_dashboard/dashboards/cadvisor_dashboad/static/mydashboard/scss/mydashboard.scss
+new file mode 100644
+index 0000000..431771b
+--- /dev/null
++++ b/openstack_dashboard/dashboards/cadvisor_dashboad/static/mydashboard/scss/mydashboard.scss
+@@ -0,0 +1 @@
++/* Additional SCSS for {{ dash_name }}. */
+diff --git a/openstack_dashboard/dashboards/cadvisor_dashboad/templates/mydashboard/base.html b/openstack_dashboard/dashboards/cadvisor_dashboad/templates/mydashboard/base.html
+new file mode 100644
+index 0000000..b28b819
+--- /dev/null
++++ b/openstack_dashboard/dashboards/cadvisor_dashboad/templates/mydashboard/base.html
+@@ -0,0 +1,11 @@
++{% extends 'base.html' %}
++
++{% block sidebar %}
++  {% include 'horizon/common/_sidebar.html' %}
++{% endblock %}
++
++{% block main %}
++    {% include "horizon/_messages.html" %}
++    {% block mydashboard_main %}{% endblock %}
++{% endblock %}
++
+diff --git a/openstack_dashboard/enabled/_50_admin_add_panel.py.example b/openstack_dashboard/enabled/_50_admin_add_panel.py.example
+deleted file mode 100644
+index b3c2acd..0000000
+--- a/openstack_dashboard/enabled/_50_admin_add_panel.py.example
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# The slug of the panel to be added to HORIZON_CONFIG. Required.
+-PANEL = 'plugin_panel'
+-# The slug of the dashboard the PANEL associated with. Required.
+-PANEL_DASHBOARD = 'admin'
+-# The slug of the panel group the PANEL is associated with.
+-PANEL_GROUP = 'admin'
+-
+-# Python panel class of the PANEL to be added.
+-ADD_PANEL = \
+-    'openstack_dashboard.test.test_panels.plugin_panel.panel.PluginPanel'
+diff --git a/openstack_dashboard/enabled/_50_cadvisor_dashboad.py b/openstack_dashboard/enabled/_50_cadvisor_dashboad.py
+new file mode 100644
+index 0000000..8be5eba
+--- /dev/null
++++ b/openstack_dashboard/enabled/_50_cadvisor_dashboad.py
+@@ -0,0 +1,10 @@
++# The name of the dashboard to be added to HORIZON['dashboards']. Required.
++DASHBOARD = 'cadvisor_dashboad'
++
++# If set to True, this dashboard will not be added to the settings.
++DISABLED = False
++
++# A list of applications to be added to INSTALLED_APPS.
++ADD_INSTALLED_APPS = [
++    'openstack_dashboard.dashboards.cadvisor_dashboad',
++]
+\ No newline at end of file
+diff --git a/openstack_dashboard/settings.py b/openstack_dashboard/settings.py
+index 0dca085..cbb8f85 100644
+--- a/openstack_dashboard/settings.py
++++ b/openstack_dashboard/settings.py
+@@ -43,6 +43,8 @@ if ROOT_PATH not in sys.path:
+     sys.path.append(ROOT_PATH)
+ 
+ DEBUG = False
++ALLOWED_HOSTS = ['*']
++
+ TEMPLATE_DEBUG = DEBUG
+ 
+ SITE_BRANDING = 'OpenStack Dashboard'
+diff --git a/openstack_dashboard/settings.py~ b/openstack_dashboard/settings.py~
+new file mode 100644
+index 0000000..cbb8f85
+--- /dev/null
++++ b/openstack_dashboard/settings.py~
+@@ -0,0 +1,407 @@
++# Copyright 2012 United States Government as represented by the
++# Administrator of the National Aeronautics and Space Administration.
++# All Rights Reserved.
++#
++# Copyright 2012 Nebula, Inc.
++#
++#    Licensed under the Apache License, Version 2.0 (the "License"); you may
++#    not use this file except in compliance with the License. You may obtain
++#    a copy of the License at
++#
++#         http://www.apache.org/licenses/LICENSE-2.0
++#
++#    Unless required by applicable law or agreed to in writing, software
++#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
++#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
++#    License for the specific language governing permissions and limitations
++#    under the License.
++
++import logging
++import os
++import sys
++import warnings
++
++from django.utils.translation import pgettext_lazy
++from django.utils.translation import ugettext_lazy as _
++
++from openstack_dashboard import exceptions
++from openstack_dashboard.static_settings import find_static_files  # noqa
++from openstack_dashboard.static_settings import get_staticfiles_dirs  # noqa
++from openstack_dashboard import theme_settings
++
++from horizon.utils.escape import monkeypatch_escape
++
++monkeypatch_escape()
++
++warnings.formatwarning = lambda message, category, *args, **kwargs: \
++    '%s: %s' % (category.__name__, message)
++
++ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
++BIN_DIR = os.path.abspath(os.path.join(ROOT_PATH, '..', 'bin'))
++
++if ROOT_PATH not in sys.path:
++    sys.path.append(ROOT_PATH)
++
++DEBUG = False
++ALLOWED_HOSTS = ['*']
++
++TEMPLATE_DEBUG = DEBUG
++
++SITE_BRANDING = 'OpenStack Dashboard'
++
++WEBROOT = '/'
++LOGIN_URL = None
++LOGOUT_URL = None
++LOGIN_REDIRECT_URL = None
++STATIC_ROOT = None
++STATIC_URL = None
++
++ROOT_URLCONF = 'openstack_dashboard.urls'
++
++HORIZON_CONFIG = {
++    'user_home': 'openstack_dashboard.views.get_user_home',
++    'ajax_queue_limit': 10,
++    'auto_fade_alerts': {
++        'delay': 3000,
++        'fade_duration': 1500,
++        'types': ['alert-success', 'alert-info']
++    },
++    'bug_url': None,
++    'help_url': "http://docs.openstack.org",
++    'exceptions': {'recoverable': exceptions.RECOVERABLE,
++                   'not_found': exceptions.NOT_FOUND,
++                   'unauthorized': exceptions.UNAUTHORIZED},
++    'modal_backdrop': 'static',
++    'angular_modules': [],
++    'js_files': [],
++    'js_spec_files': [],
++    'external_templates': [],
++    'plugins': []
++}
++
++# Set to True to allow users to upload images to glance via Horizon server.
++# When enabled, a file form field will appear on the create image form.
++# See documentation for deployment considerations.
++HORIZON_IMAGES_ALLOW_UPLOAD = True
++
++# The OPENSTACK_IMAGE_BACKEND settings can be used to customize features
++# in the OpenStack Dashboard related to the Image service, such as the list
++# of supported image formats.
++OPENSTACK_IMAGE_BACKEND = {
++    'image_formats': [
++        ('', _('Select format')),
++        ('aki', _('AKI - Amazon Kernel Image')),
++        ('ami', _('AMI - Amazon Machine Image')),
++        ('ari', _('ARI - Amazon Ramdisk Image')),
++        ('docker', _('Docker')),
++        ('iso', _('ISO - Optical Disk Image')),
++        ('ova', _('OVA - Open Virtual Appliance')),
++        ('qcow2', _('QCOW2 - QEMU Emulator')),
++        ('raw', _('Raw')),
++        ('vdi', _('VDI - Virtual Disk Image')),
++        ('vhd', _('VHD - Virtual Hard Disk')),
++        ('vmdk', _('VMDK - Virtual Machine Disk')),
++    ]
++}
++
++MIDDLEWARE_CLASSES = (
++    'django.middleware.common.CommonMiddleware',
++    'django.middleware.csrf.CsrfViewMiddleware',
++    'django.contrib.sessions.middleware.SessionMiddleware',
++    'django.contrib.auth.middleware.AuthenticationMiddleware',
++    'django.contrib.messages.middleware.MessageMiddleware',
++    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
++    'horizon.middleware.HorizonMiddleware',
++    'horizon.themes.ThemeMiddleware',
++    'django.middleware.locale.LocaleMiddleware',
++    'django.middleware.clickjacking.XFrameOptionsMiddleware',
++)
++
++TEMPLATE_CONTEXT_PROCESSORS = (
++    'django.core.context_processors.debug',
++    'django.core.context_processors.i18n',
++    'django.core.context_processors.request',
++    'django.core.context_processors.media',
++    'django.core.context_processors.static',
++    'django.contrib.messages.context_processors.messages',
++    'horizon.context_processors.horizon',
++    'openstack_dashboard.context_processors.openstack',
++)
++
++TEMPLATE_LOADERS = (
++    'horizon.themes.ThemeTemplateLoader',
++    ('django.template.loaders.cached.Loader', (
++        'django.template.loaders.filesystem.Loader',
++        'django.template.loaders.app_directories.Loader',
++        'horizon.loaders.TemplateLoader',
++    )),
++)
++
++TEMPLATE_DIRS = (
++    os.path.join(ROOT_PATH, 'templates'),
++)
++
++STATICFILES_FINDERS = (
++    'django.contrib.staticfiles.finders.FileSystemFinder',
++    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
++    'compressor.finders.CompressorFinder',
++)
++
++COMPRESS_PRECOMPILERS = (
++    ('text/scss', 'horizon.utils.scss_filter.HorizonScssFilter'),
++)
++
++COMPRESS_CSS_FILTERS = (
++    'compressor.filters.css_default.CssAbsoluteFilter',
++)
++
++COMPRESS_ENABLED = True
++COMPRESS_OUTPUT_DIR = 'dashboard'
++COMPRESS_CSS_HASHING_METHOD = 'hash'
++COMPRESS_PARSER = 'compressor.parser.HtmlParser'
++
++INSTALLED_APPS = [
++    'openstack_dashboard',
++    'django.contrib.contenttypes',
++    'django.contrib.auth',
++    'django.contrib.sessions',
++    'django.contrib.messages',
++    'django.contrib.staticfiles',
++    'django.contrib.humanize',
++    'django_pyscss',
++    'openstack_dashboard.django_pyscss_fix',
++    'compressor',
++    'horizon',
++    'openstack_auth',
++]
++
++TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
++AUTHENTICATION_BACKENDS = ('openstack_auth.backend.KeystoneBackend',)
++AUTHENTICATION_URLS = ['openstack_auth.urls']
++AUTH_USER_MODEL = 'openstack_auth.User'
++MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
++
++SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
++SESSION_COOKIE_HTTPONLY = True
++SESSION_EXPIRE_AT_BROWSER_CLOSE = True
++SESSION_COOKIE_SECURE = False
++
++# SESSION_TIMEOUT is a method to supersede the token timeout with a shorter
++# horizon session timeout (in seconds).  So if your token expires in 60
++# minutes, a value of 1800 will log users out after 30 minutes
++SESSION_TIMEOUT = 3600
++
++# When using cookie-based sessions, log error when the session cookie exceeds
++# the following size (common browsers drop cookies above a certain size):
++SESSION_COOKIE_MAX_SIZE = 4093
++
++# when doing upgrades, it may be wise to stick to PickleSerializer
++# NOTE(berendt): Check during the K-cycle if this variable can be removed.
++#                https://bugs.launchpad.net/horizon/+bug/1349463
++SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
++
++LANGUAGES = (
++    ('cs', 'Czech'),
++    ('de', 'German'),
++    ('en', 'English'),
++    ('en-au', 'Australian English'),
++    ('en-gb', 'British English'),
++    ('es', 'Spanish'),
++    ('fr', 'French'),
++    ('it', 'Italian'),
++    ('ja', 'Japanese'),
++    ('ko', 'Korean (Korea)'),
++    ('pl', 'Polish'),
++    ('pt-br', 'Portuguese (Brazil)'),
++    ('ru', 'Russian'),
++    ('tr', 'Turkish'),
++    ('zh-cn', 'Simplified Chinese'),
++    ('zh-tw', 'Chinese (Taiwan)'),
++)
++LANGUAGE_CODE = 'en'
++LANGUAGE_COOKIE_NAME = 'horizon_language'
++USE_I18N = True
++USE_L10N = True
++USE_TZ = True
++
++OPENSTACK_KEYSTONE_DEFAULT_ROLE = '_member_'
++
++DEFAULT_EXCEPTION_REPORTER_FILTER = 'horizon.exceptions.HorizonReporterFilter'
++
++POLICY_FILES_PATH = os.path.join(ROOT_PATH, "conf")
++# Map of local copy of service policy files
++POLICY_FILES = {
++    'identity': 'keystone_policy.json',
++    'compute': 'nova_policy.json',
++    'volume': 'cinder_policy.json',
++    'image': 'glance_policy.json',
++    'orchestration': 'heat_policy.json',
++    'network': 'neutron_policy.json',
++    'telemetry': 'ceilometer_policy.json',
++}
++
++SECRET_KEY = None
++LOCAL_PATH = None
++
++SECURITY_GROUP_RULES = {
++    'all_tcp': {
++        'name': _('All TCP'),
++        'ip_protocol': 'tcp',
++        'from_port': '1',
++        'to_port': '65535',
++    },
++    'all_udp': {
++        'name': _('All UDP'),
++        'ip_protocol': 'udp',
++        'from_port': '1',
++        'to_port': '65535',
++    },
++    'all_icmp': {
++        'name': _('All ICMP'),
++        'ip_protocol': 'icmp',
++        'from_port': '-1',
++        'to_port': '-1',
++    },
++}
++
++ADD_INSTALLED_APPS = []
++
++# Deprecated Theme Settings
++CUSTOM_THEME_PATH = None
++DEFAULT_THEME_PATH = None
++
++# 'key', 'label', 'path'
++AVAILABLE_THEMES = [
++    (
++        'default',
++        pgettext_lazy('Default style theme', 'Default'),
++        'themes/default'
++    ), (
++        'material',
++        pgettext_lazy("Google's Material Design style theme", "Material"),
++        'themes/material'
++    ),
++]
++
++# The default theme if no cookie is present
++DEFAULT_THEME = 'default'
++
++# Theme Static Directory
++THEME_COLLECTION_DIR = 'themes'
++
++# Theme Cookie Name
++THEME_COOKIE_NAME = 'theme'
++
++try:
++    from local.local_settings import *  # noqa
++except ImportError:
++    logging.warning("No local_settings file found.")
++
++# allow to drop settings snippets into a local_settings_dir
++LOCAL_SETTINGS_DIR_PATH = os.path.join(ROOT_PATH, "local", "local_settings.d")
++if os.path.exists(LOCAL_SETTINGS_DIR_PATH):
++    for (dirpath, dirnames, filenames) in os.walk(LOCAL_SETTINGS_DIR_PATH):
++        for filename in sorted(filenames):
++            if filename.endswith(".py"):
++                try:
++                    execfile(os.path.join(dirpath, filename))
++                except Exception as e:
++                    logging.exception(
++                        "Can not exec settings snippet %s" % (filename))
++
++
++if not WEBROOT.endswith('/'):
++    WEBROOT += '/'
++if LOGIN_URL is None:
++    LOGIN_URL = WEBROOT + 'auth/login/'
++if LOGOUT_URL is None:
++    LOGOUT_URL = WEBROOT + 'auth/logout/'
++if LOGIN_REDIRECT_URL is None:
++    LOGIN_REDIRECT_URL = WEBROOT
++
++MEDIA_ROOT = os.path.abspath(os.path.join(ROOT_PATH, '..', 'media'))
++MEDIA_URL = WEBROOT + 'media/'
++
++if STATIC_ROOT is None:
++    STATIC_ROOT = os.path.abspath(os.path.join(ROOT_PATH, '..', 'static'))
++
++if STATIC_URL is None:
++    STATIC_URL = WEBROOT + 'static/'
++
++AVAILABLE_THEMES, DEFAULT_THEME = theme_settings.get_available_themes(
++    AVAILABLE_THEMES,
++    CUSTOM_THEME_PATH,
++    DEFAULT_THEME_PATH,
++    DEFAULT_THEME
++)
++
++STATICFILES_DIRS = get_staticfiles_dirs(STATIC_URL) + \
++    theme_settings.get_theme_static_dirs(
++        AVAILABLE_THEMES,
++        THEME_COLLECTION_DIR,
++        ROOT_PATH)
++
++if CUSTOM_THEME_PATH is not None:
++    logging.warning("CUSTOM_THEME_PATH has been deprecated.  Please convert "
++                    "your settings to make use of AVAILABLE_THEMES.")
++
++if DEFAULT_THEME_PATH is not None:
++    logging.warning("DEFAULT_THEME_PATH has been deprecated.  Please convert "
++                    "your settings to make use of AVAILABLE_THEMES.")
++
++# populate HORIZON_CONFIG with auto-discovered JavaScript sources, mock files,
++# specs files and external templates.
++find_static_files(HORIZON_CONFIG)
++
++# Ensure that we always have a SECRET_KEY set, even when no local_settings.py
++# file is present. See local_settings.py.example for full documentation on the
++# horizon.utils.secret_key module and its use.
++if not SECRET_KEY:
++    if not LOCAL_PATH:
++        LOCAL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
++                                  'local')
++
++    from horizon.utils import secret_key
++    SECRET_KEY = secret_key.generate_or_read_from_file(os.path.join(LOCAL_PATH,
++                                                       '.secret_key_store'))
++
++# Load the pluggable dashboard settings
++import openstack_dashboard.enabled
++import openstack_dashboard.local.enabled
++from openstack_dashboard.utils import settings
++
++INSTALLED_APPS = list(INSTALLED_APPS)  # Make sure it's mutable
++settings.update_dashboards(
++    [
++        openstack_dashboard.enabled,
++        openstack_dashboard.local.enabled,
++    ],
++    HORIZON_CONFIG,
++    INSTALLED_APPS,
++)
++INSTALLED_APPS[0:0] = ADD_INSTALLED_APPS
++
++from openstack_auth import policy
++POLICY_CHECK_FUNCTION = policy.check
++
++# This base context objects gets added to the offline context generator
++# for each theme configured.
++HORIZON_COMPRESS_OFFLINE_CONTEXT_BASE = {
++    'WEBROOT': WEBROOT,
++    'STATIC_URL': STATIC_URL,
++    'HORIZON_CONFIG': HORIZON_CONFIG
++}
++
++COMPRESS_OFFLINE_CONTEXT = 'horizon.themes.offline_context'
++
++if DEBUG:
++    logging.basicConfig(level=logging.DEBUG)
++
++# during django reloads and an active user is logged in, the monkey
++# patch below will not otherwise be applied in time - resulting in developers
++# appearing to be logged out.  In typical production deployments this section
++# below may be omitted, though it should not be harmful
++from openstack_auth import utils as auth_utils
++auth_utils.patch_middleware_get_user()
++
++CSRF_COOKIE_AGE = None
